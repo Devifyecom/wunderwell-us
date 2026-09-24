@@ -1,0 +1,64 @@
+{
+  "type": "footer",
+  "name": "Footer Group",
+  "sections": {
+    "footer": {
+      "type": "page-footer",
+      "blocks": {
+        "menu_TyWCqJ": {
+          "type": "menu",
+          "settings": {
+            "heading_links": "Categories",
+            "links": "categories"
+          }
+        },
+        "menu_DzCNd6": {
+          "type": "menu",
+          "settings": {
+            "heading_links": "Customer Service",
+            "links": "customer-service"
+          }
+        },
+        "menu_9YUhCX": {
+          "type": "menu",
+          "settings": {
+            "heading_links": "Information",
+            "links": "information"
+          }
+        },
+        "text_DY7pny": {
+          "type": "text",
+          "settings": {
+            "heading_text": "About Us",
+            "text": "<p>We could not have created this demo without the help of an amazing source of content and products. Visit our about page to find out where all the products used in this demo care from.   <a href=\"/pages/about-us\" title=\"About us\">More Info</a></p>"
+          }
+        }
+      },
+      "block_order": [
+        "menu_TyWCqJ",
+        "menu_DzCNd6",
+        "menu_9YUhCX",
+        "text_DY7pny"
+      ],
+      "settings": {
+        "show-scroll-effect": false,
+        "show-social-media-icons": true,
+        "show_country_selector": true,
+        "show_country_selector_label": true,
+        "show_country_selector_flag": true,
+        "show_language_selector": false,
+        "enable_follow_on_shop": true,
+        "show-payments-icons": true,
+        "show-copyright": false,
+        "text": "© 2026 Wonder Fashion Demo.  Powered by Shopify.",
+        "big-logo": "",
+        "big-logo-width": 100,
+        "margin-top": 56,
+        "margin-bottom": 8
+      }
+    }
+  },
+  "order": [
+    "footer"
+  ]
+}
