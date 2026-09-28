@@ -1,0 +1,51 @@
+{% render 'ww-assets' %}
+
+<div class="ww-section ww-survey">
+  <div class="ww-container">
+    <div class="ww-head-center">
+      {%- if section.settings.eyebrow != blank -%}<p class="ww-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      <h2 class="ww-heading">{{ section.settings.heading }}</h2>
+    </div>
+    <div class="ww-survey__grid">
+      {%- for block in section.blocks -%}
+        <div class="ww-scard" {{ block.shopify_attributes }}>
+          <strong>{{ block.settings.value }}</strong>
+          <span>{{ block.settings.label }}</span>
+          {%- if block.settings.source != blank -%}<small>{{ block.settings.source }}</small>{%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "WW Survey stats",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The numbers" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "In a survey of 1,000 Hey Girl customers..." }
+  ],
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Stat",
+      "settings": [
+        { "type": "text", "id": "value", "label": "Value", "default": "91%" },
+        { "type": "text", "id": "label", "label": "Label", "default": "Felt the burning ease within 48 hours" },
+        { "type": "text", "id": "source", "label": "Source", "default": "Hey Girl 2026 customer survey" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "WW Survey stats",
+      "blocks": [
+        { "type": "stat" },
+        { "type": "stat", "settings": { "value": "88%", "label": "Had fewer repeat UTIs taking it daily" } },
+        { "type": "stat", "settings": { "value": "93%", "label": "Said it beat the cranberry pills they tried before" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

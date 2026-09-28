@@ -1,0 +1,51 @@
+{% render 'ww-assets' %}
+
+<div class="ww-section ww-press">
+  <div class="ww-container">
+    {%- if section.settings.title != blank -%}
+      <p class="ww-press__title">{{ section.settings.title }}</p>
+    {%- endif -%}
+    <div class="ww-press__logos">
+      {%- for block in section.blocks -%}
+        <div {{ block.shopify_attributes }}>
+          {%- if block.settings.logo != blank -%}
+            {{ block.settings.logo | image_url: width: 400 | image_tag: loading: 'lazy', alt: block.settings.name }}
+          {%- else -%}
+            <span class="ww-press__word">{{ block.settings.name }}</span>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "WW Press logos",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Title", "default": "Trusted sources in women's health" }
+  ],
+  "blocks": [
+    {
+      "type": "logo",
+      "name": "Logo",
+      "settings": [
+        { "type": "image_picker", "id": "logo", "label": "Logo" },
+        { "type": "text", "id": "name", "label": "Name", "info": "Shown as text when no logo is uploaded", "default": "Forbes" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "WW Press logos",
+      "blocks": [
+        { "type": "logo", "settings": { "name": "Forbes" } },
+        { "type": "logo", "settings": { "name": "COSMOPOLITAN" } },
+        { "type": "logo", "settings": { "name": "The New Yorker" } },
+        { "type": "logo", "settings": { "name": "Women'sHealth" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

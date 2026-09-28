@@ -1,0 +1,109 @@
+{% render 'ww-assets' %}
+
+<div class="ww-section ww-trust">
+  <div class="ww-container ww-trust__grid">
+    <div class="ww-trust__panel">
+      {%- if section.settings.bg_image != blank -%}
+        <div class="ww-trust__panel-bg">
+          {{ section.settings.bg_image | image_url: width: 1200 | image_tag: loading: 'lazy', alt: '' }}
+        </div>
+      {%- endif -%}
+      <h2>{{ section.settings.heading | newline_to_br }}</h2>
+
+      {%- assign tiles = section.blocks | where: 'type', 'tile' -%}
+      {%- if tiles.size > 0 -%}
+        <div class="ww-trust__tiles">
+          {%- for block in tiles -%}
+            <div class="ww-trust__tile" {{ block.shopify_attributes }}>
+              {%- if block.settings.icon_image != blank -%}
+                {{ block.settings.icon_image | image_url: width: 120 | image_tag: loading: 'lazy', alt: '' }}
+              {%- else -%}
+                {% render 'ww-icon', icon: block.settings.icon %}
+              {%- endif -%}
+              <span>{{ block.settings.text }}</span>
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      {%- assign checks = section.blocks | where: 'type', 'check' -%}
+      {%- if checks.size > 0 -%}
+        <ul class="ww-trust__checks">
+          {%- for block in checks -%}
+            <li {{ block.shopify_attributes }}>{% render 'ww-icon', icon: 'check-circle' %} {{ block.settings.text }}</li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+    </div>
+
+    <div class="ww-trust__media">
+      {%- if section.settings.image != blank -%}
+        {{
+          section.settings.image
+          | image_url: width: 1200
+          | image_tag: loading: 'lazy', sizes: '(min-width: 990px) 570px, 100vw', widths: '600, 900, 1200', alt: section.settings.image.alt
+        }}
+      {%- else -%}
+        {{ 'lifestyle-1' | placeholder_svg_tag }}
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "WW Why trust",
+  "tag": "section",
+  "settings": [
+    { "type": "textarea", "id": "heading", "label": "Heading", "default": "Why Trust\nHey Girl D-Mannose" },
+    { "type": "image_picker", "id": "bg_image", "label": "Panel background image" },
+    { "type": "image_picker", "id": "image", "label": "Side image" }
+  ],
+  "blocks": [
+    {
+      "type": "tile",
+      "name": "Icon tile",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "document", "label": "Document" },
+            { "value": "flask", "label": "Lab flask" },
+            { "value": "leaf", "label": "Leaf" },
+            { "value": "usa", "label": "USA map" },
+            { "value": "shield", "label": "Shield" }
+          ],
+          "default": "document"
+        },
+        { "type": "image_picker", "id": "icon_image", "label": "Custom icon" },
+        { "type": "text", "id": "text", "label": "Text", "default": "Clinically supported ingredients" }
+      ]
+    },
+    {
+      "type": "check",
+      "name": "Check item",
+      "settings": [{ "type": "text", "id": "text", "label": "Text", "default": "Vegan friendly" }]
+    }
+  ],
+  "presets": [
+    {
+      "name": "WW Why trust",
+      "blocks": [
+        { "type": "tile" },
+        { "type": "tile", "settings": { "icon": "flask", "text": "Third party tested" } },
+        { "type": "tile", "settings": { "icon": "leaf", "text": "Clean formula" } },
+        { "type": "tile", "settings": { "icon": "usa", "text": "Made in the USA" } },
+        { "type": "check" },
+        { "type": "check", "settings": { "text": "No artificial additives" } },
+        { "type": "check", "settings": { "text": "Non GMO" } },
+        { "type": "check", "settings": { "text": "No fillers or binders" } },
+        { "type": "check", "settings": { "text": "Gluten free" } },
+        { "type": "check", "settings": { "text": "No added sugar" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

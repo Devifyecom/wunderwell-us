@@ -1,0 +1,29 @@
+{% render 'ww-assets' %}
+
+<div class="ww-section ww-guarantee">
+  <div class="ww-container">
+    <div class="ww-guarantee__box">
+      <div class="ww-guarantee__seal">{{ section.settings.seal | newline_to_br }}</div>
+      <h2>{{ section.settings.heading }}</h2>
+      <div class="ww-rte">{{ section.settings.text }}</div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "WW Guarantee",
+  "tag": "section",
+  "settings": [
+    { "type": "textarea", "id": "seal", "label": "Seal text", "default": "30\nDay" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Love it, or it's on us." },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Try Hey Girl D-Mannose for 30 days. If you don't feel calmer, clearer, and more in control of your bladder, we'll refund every penny. No questions, no return needed. Keep the free Tea Tumbler too.</p>"
+    }
+  ],
+  "presets": [{ "name": "WW Guarantee" }]
+}
+{% endschema %}

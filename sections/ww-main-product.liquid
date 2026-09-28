@@ -1,0 +1,567 @@
+{% render 'ww-assets' %}
+<script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  assign variant = product.selected_or_first_available_variant
+  assign one_price = variant.price
+  assign product_form_id = 'ww-product-form-' | append: section.id
+
+  assign has_plan = false
+  assign sub_price = one_price
+  assign plan_id = ''
+  if product.selling_plan_groups.size > 0 and variant.selling_plan_allocations.size > 0
+    assign allocation = variant.selling_plan_allocations.first
+    assign has_plan = true
+    assign sub_price = allocation.price
+    assign plan_id = allocation.selling_plan.id
+  endif
+
+  assign save_pct = 0
+  if has_plan and one_price > 0
+    assign save_pct = one_price | minus: sub_price | times: 100.0 | divided_by: one_price | round
+  endif
+  assign per_day = sub_price | divided_by: 30
+  assign default_plan = 'onetime'
+  if has_plan
+    assign default_plan = 'subscribe'
+  endif
+-%}
+
+<div class="ww-section ww-main" id="ww-main-{{ section.id }}">
+  <div class="ww-container ww-main__grid">
+    {%- comment -%} Gallery {%- endcomment -%}
+    <div class="ww-gallery" data-ww-gallery>
+      <div class="ww-gallery__main">
+        {%- if product.media.size > 0 -%}
+          {%- for media in product.media -%}
+            {%- liquid
+              assign loading = 'lazy'
+              if forloop.first
+                assign loading = 'eager'
+              endif
+            -%}
+            <div class="ww-gallery__slide{% if forloop.first %} is-active{% endif %}">
+              {{
+                media.preview_image
+                | image_url: width: 1400
+                | image_tag:
+                  loading: loading,
+                  sizes: '(min-width: 990px) 50vw, 100vw',
+                  widths: '600, 900, 1200, 1400',
+                  alt: media.alt | default: product.title
+              }}
+            </div>
+          {%- endfor -%}
+        {%- else -%}
+          <div class="ww-gallery__slide is-active">{{ 'product-1' | placeholder_svg_tag }}</div>
+        {%- endif -%}
+      </div>
+
+      {%- if product.media.size > 1 -%}
+        <div class="ww-gallery__thumbs">
+          {%- for media in product.media -%}
+            <button
+              type="button"
+              class="ww-gallery__thumb{% if forloop.first %} is-active{% endif %}"
+              aria-label="{{ media.alt | default: product.title | escape }} {{ forloop.index }}"
+              aria-current="{% if forloop.first %}true{% else %}false{% endif %}"
+            >
+              {{ media.preview_image | image_url: width: 200 | image_tag: loading: 'lazy', alt: '' }}
+            </button>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.label_button != blank -%}
+        <button type="button" class="ww-gallery__label-btn" data-ww-modal-open="ww-label-{{ section.id }}">
+          {{ section.settings.label_button }}
+          {% render 'ww-icon', icon: 'plus' %}
+        </button>
+        <dialog class="ww-modal" id="ww-label-{{ section.id }}">
+          <button type="button" class="ww-modal__close" data-ww-modal-close aria-label="Close">
+            {% render 'ww-icon', icon: 'close' %}
+          </button>
+          {%- if section.settings.label_image != blank -%}
+            {{ section.settings.label_image | image_url: width: 1200 | image_tag: loading: 'lazy', alt: section.settings.label_button }}
+          {%- else -%}
+            <div style="padding:60px 40px;text-align:center;">{{ section.settings.label_button }}</div>
+          {%- endif -%}
+        </dialog>
+      {%- endif -%}
+
+      {%- if section.settings.gallery_note != blank -%}
+        <p class="ww-gallery__note">{% render 'ww-icon', icon: 'check' %} {{ section.settings.gallery_note }}</p>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} Product info {%- endcomment -%}
+    <div class="ww-info">
+      {%- assign accordion_open = false -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type != 'collapsible' and accordion_open -%}
+          </div>
+          {%- assign accordion_open = false -%}
+        {%- endif -%}
+
+        {%- case block.type -%}
+          {%- when 'rating' -%}
+            <div class="ww-rating" {{ block.shopify_attributes }}>
+              <span class="ww-stars">
+                {%- for i in (1..5) -%}{% render 'ww-icon', icon: 'star' %}{%- endfor -%}
+              </span>
+              <span class="ww-rating__score">{{ block.settings.score }}</span>
+              <a href="{{ block.settings.reviews_link | default: '#ww-reviews' }}">({{ block.settings.count }})</a>
+              {%- if block.settings.served != blank -%}
+                <span class="ww-rating__sep"></span>
+                <span>{{ block.settings.served }}</span>
+              {%- endif -%}
+            </div>
+
+          {%- when 'tags' -%}
+            <p class="ww-tags" {{ block.shopify_attributes }}>{{ block.settings.text }}</p>
+
+          {%- when 'title' -%}
+            <h1 class="ww-title" {{ block.shopify_attributes }}>
+              {{- block.settings.title | default: product.title -}}
+              {%- if block.settings.accent != blank %} <span class="ww-accent">{{ block.settings.accent }}</span>{% endif -%}
+            </h1>
+
+          {%- when 'description' -%}
+            <div class="ww-desc ww-rte" {{ block.shopify_attributes }}>
+              {%- if block.settings.text != blank -%}
+                {{ block.settings.text }}
+              {%- else -%}
+                {{ product.description }}
+              {%- endif -%}
+            </div>
+
+          {%- when 'bullets' -%}
+            <ul class="ww-bullets" {{ block.shopify_attributes }}>
+              {%- assign lines = block.settings.lines | newline_to_br | split: '<br />' -%}
+              {%- for line in lines -%}
+                {%- assign line = line | strip -%}
+                {%- if line != blank -%}
+                  {%- assign parts = line | split: '|' -%}
+                  <li>
+                    {% render 'ww-icon', icon: 'check-circle' %}
+                    <span>
+                      {%- if parts.size > 1 -%}
+                        <strong>{{ parts[0] | strip }}</strong>, {{ parts[1] | strip }}
+                      {%- else -%}
+                        {{ line }}
+                      {%- endif -%}
+                    </span>
+                  </li>
+                {%- endif -%}
+              {%- endfor -%}
+            </ul>
+
+          {%- when 'buy' -%}
+            {%- liquid
+              assign badge = block.settings.badge | replace: '[save]', save_pct
+              assign save_label = block.settings.sticky_save | replace: '[save]', save_pct
+              assign sub_price_html = sub_price | money | append: '<small>' | append: block.settings.per_label | append: '</small>'
+              assign one_price_html = one_price | money
+            -%}
+            <div
+              class="ww-buy"
+              id="ww-buy-{{ section.id }}"
+              data-ww-buy
+              data-section="{{ section.id }}"
+              {{ block.shopify_attributes }}
+            >
+              <p class="ww-buy__label">{{ block.settings.heading }}</p>
+
+              {%- if has_plan -%}
+                <label class="ww-plan{% if default_plan == 'subscribe' %} is-selected{% endif %}">
+                  <input
+                    type="radio"
+                    name="ww-plan-{{ section.id }}"
+                    value="subscribe"
+                    data-selling-plan="{{ plan_id }}"
+                    data-price-html="{{ sub_price_html | escape }}"
+                    data-compare="{{ one_price | money | escape }}"
+                    data-save="{{ save_label | escape }}"
+                    data-meta="{{ block.settings.sticky_meta_sub | escape }}"
+                    checked
+                  >
+                  {%- if badge != blank -%}<span class="ww-plan__badge">{{ badge }}</span>{%- endif -%}
+                  <span class="ww-plan__row">
+                    <span class="ww-plan__radio"></span>
+                    <span class="ww-plan__main">
+                      <span class="ww-plan__name">{{ block.settings.sub_title }}</span>
+                      <span class="ww-plan__meta">{{ block.settings.sub_meta }}</span>
+                    </span>
+                    <span class="ww-plan__price">
+                      <span class="ww-plan__now">{{ sub_price_html }}</span>
+                      <span class="ww-plan__was">{{ one_price | money }}</span>
+                      <span class="ww-plan__day">{{ per_day | money }} / day</span>
+                    </span>
+                  </span>
+                  {%- if block.settings.perks != blank -%}
+                    <ul class="ww-plan__perks">
+                      {%- assign perks = block.settings.perks | newline_to_br | split: '<br />' -%}
+                      {%- for perk in perks -%}
+                        {%- assign perk = perk | strip -%}
+                        {%- if perk != blank -%}
+                          {%- assign perk_parts = perk | split: '|' -%}
+                          <li>
+                            {% render 'ww-icon', icon: 'check' %}
+                            {%- if perk_parts.size > 1 -%}
+                              <b>{{ perk_parts[0] | strip }}</b> {{ perk_parts[1] | strip }}
+                            {%- else -%}
+                              {{ perk }}
+                            {%- endif -%}
+                          </li>
+                        {%- endif -%}
+                      {%- endfor -%}
+                    </ul>
+                  {%- endif -%}
+                </label>
+
+                {%- if block.settings.show_gift -%}
+                  <div class="ww-gift">
+                    <p class="ww-gift__title">{{ block.settings.gift_title }}</p>
+                    <div class="ww-gift__items">
+                      <div class="ww-gift__item">
+                        {%- if block.settings.gift_tag != blank -%}<span class="ww-gift__tag">{{ block.settings.gift_tag }}</span>{%- endif -%}
+                        {%- if block.settings.gift_image_1 != blank -%}
+                          {{ block.settings.gift_image_1 | image_url: width: 500 | image_tag: loading: 'lazy', alt: block.settings.gift_label_1 }}
+                        {%- else -%}
+                          {{ 'product-2' | placeholder_svg_tag }}
+                        {%- endif -%}
+                        <span>{{ block.settings.gift_label_1 }}</span>
+                      </div>
+                      <div class="ww-gift__item">
+                        {%- if block.settings.gift_image_2 != blank -%}
+                          {{ block.settings.gift_image_2 | image_url: width: 500 | image_tag: loading: 'lazy', alt: block.settings.gift_label_2 }}
+                        {%- elsif product.featured_image -%}
+                          {{ product.featured_image | image_url: width: 500 | image_tag: loading: 'lazy', alt: block.settings.gift_label_2 }}
+                        {%- else -%}
+                          {{ 'product-3' | placeholder_svg_tag }}
+                        {%- endif -%}
+                        <span>{{ block.settings.gift_label_2 }}</span>
+                      </div>
+                    </div>
+                  </div>
+                {%- endif -%}
+              {%- elsif request.design_mode -%}
+                <p class="ww-buy__note" style="margin:0 0 10px;">
+                  Add a subscription selling plan to this product to show the “Subscribe &amp; Save” option.
+                </p>
+              {%- endif -%}
+
+              {%- unless product.requires_selling_plan -%}
+                <label class="ww-plan ww-plan--simple{% if default_plan == 'onetime' %} is-selected{% endif %}">
+                  <input
+                    type="radio"
+                    name="ww-plan-{{ section.id }}"
+                    value="onetime"
+                    data-selling-plan=""
+                    data-price-html="{{ one_price_html | escape }}"
+                    data-compare="{% if variant.compare_at_price > one_price %}{{ variant.compare_at_price | money | escape }}{% endif %}"
+                    data-save=""
+                    data-meta="{{ block.settings.sticky_meta_one | escape }}"
+                    {% if default_plan == 'onetime' %}checked{% endif %}
+                  >
+                  <span class="ww-plan__row">
+                    <span class="ww-plan__radio"></span>
+                    <span class="ww-plan__main">
+                      <span class="ww-plan__name">{{ block.settings.one_title }}</span>
+                      <span class="ww-plan__meta">{{ block.settings.one_meta }}</span>
+                    </span>
+                    <span class="ww-plan__price">
+                      <span class="ww-plan__now">{{ one_price | money }}</span>
+                      <span class="ww-plan__ship">{{ block.settings.one_ship }}</span>
+                    </span>
+                  </span>
+                </label>
+              {%- endunless -%}
+
+              <product-form class="ww-buy__cta" data-hide-errors="false">
+                <div class="product-form__error-message-wrapper" role="alert" hidden>
+                  <span class="product-form__error-message"></span>
+                </div>
+                {%- form 'product', product, id: product_form_id, novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
+                  <input type="hidden" name="id" value="{{ variant.id }}">
+                  <input
+                    type="hidden"
+                    name="selling_plan"
+                    value="{{ plan_id }}"
+                    data-ww-selling-plan
+                    {% unless has_plan %}disabled{% endunless %}
+                  >
+                  <button
+                    type="submit"
+                    name="add"
+                    class="ww-btn ww-btn--block"
+                    {% unless variant.available %}disabled{% endunless %}
+                  >
+                    <span>
+                      {%- if variant.available -%}
+                        {{ block.settings.button_label }}
+                      {%- else -%}
+                        {{ 'products.product.sold_out' | t }}
+                      {%- endif -%}
+                    </span>
+                    {%- if variant.available -%}{% render 'ww-icon', icon: 'arrow' %}{%- endif -%}
+                    {% render 'button-loading-indicator' %}
+                  </button>
+                {%- endform -%}
+              </product-form>
+
+              {%- if block.settings.note != blank -%}
+                <p class="ww-buy__note">{{ block.settings.note }}</p>
+              {%- endif -%}
+
+              {%- if block.settings.badges_image != blank -%}
+                <div class="ww-buy__badges">
+                  {{ block.settings.badges_image | image_url: width: 1200 | image_tag: loading: 'lazy', alt: 'Certifications' }}
+                </div>
+              {%- elsif block.settings.show_badges_fallback -%}
+                <div class="ww-buy__badges ww-buy__badges--fallback">
+                  <div><strong>MADE IN<br>USA</strong><small>WITH GLOBAL INGREDIENTS</small></div>
+                  <div class="ww-seal">GMP<br>CERTIFIED</div>
+                  <div class="ww-seal">LAB<br>TESTED</div>
+                  <div class="ww-seal">VEGE&shy;TARIAN</div>
+                  <div class="ww-seal">NATURAL<br>PRODUCT</div>
+                </div>
+              {%- endif -%}
+            </div>
+
+          {%- when 'collapsible' -%}
+            {%- unless accordion_open -%}
+              <div class="ww-accordions">
+              {%- assign accordion_open = true -%}
+            {%- endunless -%}
+            <details class="ww-acc" {{ block.shopify_attributes }}>
+              <summary>{{ block.settings.heading }} {% render 'ww-icon', icon: 'plus' %}</summary>
+              <div class="ww-acc__body ww-rte">
+                {{ block.settings.content }}
+                {%- if block.settings.page != blank -%}{{ block.settings.page.content }}{%- endif -%}
+              </div>
+            </details>
+
+          {%- when 'video_reviews' -%}
+            <div class="ww-vreview" {{ block.shopify_attributes }}>
+              <div class="ww-vreview__video" data-ww-video>
+                <div class="ww-vreview__frame">
+                  {%- if block.settings.video != blank -%}
+                    {{
+                      block.settings.video
+                      | video_tag: autoplay: true, loop: true, muted: true, playsinline: true, controls: false, image_size: '400x'
+                    }}
+                  {%- elsif block.settings.video_url != blank -%}
+                    <video src="{{ block.settings.video_url }}" autoplay loop muted playsinline></video>
+                  {%- elsif block.settings.poster != blank -%}
+                    {{ block.settings.poster | image_url: width: 400 | image_tag: loading: 'lazy' }}
+                  {%- else -%}
+                    {{ 'lifestyle-1' | placeholder_svg_tag }}
+                  {%- endif -%}
+                  {%- if block.settings.video != blank or block.settings.video_url != blank -%}
+                    <button
+                      type="button"
+                      class="ww-vreview__sound"
+                      data-off-text="{{ block.settings.sound_label | escape }}"
+                      data-on-text="{{ block.settings.mute_label | escape }}"
+                    >
+                      {% render 'ww-icon', icon: 'sound' %}<span>{{ block.settings.sound_label }}</span>
+                    </button>
+                  {%- endif -%}
+                </div>
+                <span class="ww-vreview__caption">★ {{ block.settings.caption }}</span>
+              </div>
+
+              <div class="ww-ticker">
+                <div class="ww-ticker__track">
+                  {%- assign reviews = block.settings.reviews | newline_to_br | split: '<br />' -%}
+                  {%- comment -%} Rendered twice so the vertical loop is seamless {%- endcomment -%}
+                  {%- for pass in (1..2) -%}
+                    {%- for review in reviews -%}
+                      {%- assign review = review | strip -%}
+                      {%- if review != blank -%}
+                        {%- assign review_parts = review | split: '|' -%}
+                        <div class="ww-ticker__card"{% if pass == 2 %} aria-hidden="true"{% endif %}>
+                          <span class="ww-stars">{%- for i in (1..5) -%}{% render 'ww-icon', icon: 'star' %}{%- endfor -%}</span>
+                          <p>“{{ review_parts[1] | strip }}”</p>
+                          <span class="ww-ticker__who">
+                            {{ review_parts[0] | strip }} · <span class="ww-verified">{% render 'ww-icon', icon: 'check' %} Verified</span>
+                          </span>
+                        </div>
+                      {%- endif -%}
+                    {%- endfor -%}
+                  {%- endfor -%}
+                </div>
+              </div>
+            </div>
+        {%- endcase -%}
+      {%- endfor -%}
+      {%- if accordion_open -%}</div>{%- endif -%}
+    </div>
+  </div>
+</div>
+
+{%- if section.settings.show_sticky -%}
+  {%- liquid
+    assign sticky_block = section.blocks | where: 'type', 'buy' | first
+    assign sticky_save = sticky_block.settings.sticky_save | replace: '[save]', save_pct
+  -%}
+  <div class="ww-section ww-sticky" data-ww-sticky="{{ section.id }}" aria-hidden="true">
+    <div class="ww-sticky__inner">
+      <div class="ww-sticky__price">
+        <span class="ww-sticky__save" data-ww-sticky-save {% unless has_plan %}hidden{% endunless %}>{{ sticky_save }}</span>
+        <span class="ww-sticky__now" data-ww-sticky-now>
+          {%- if has_plan -%}{{ sub_price | money }}<small>{{ sticky_block.settings.per_label }}</small>{%- else -%}{{ one_price | money }}{%- endif -%}
+        </span>
+        <span class="ww-sticky__was" data-ww-sticky-was {% unless has_plan %}hidden{% endunless %}>{{ one_price | money }}</span>
+      </div>
+      <div class="ww-sticky__center">
+        <p class="ww-sticky__meta" data-ww-sticky-meta>
+          {%- if has_plan -%}{{ sticky_block.settings.sticky_meta_sub }}{%- else -%}{{ sticky_block.settings.sticky_meta_one }}{%- endif -%}
+        </p>
+        <button type="submit" form="{{ product_form_id }}" class="ww-btn" {% unless variant.available %}disabled{% endunless %}>
+          {{ section.settings.sticky_button }}
+        </button>
+      </div>
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "WW Main product",
+  "tag": "section",
+  "class": "ww-main-product-section",
+  "settings": [
+    { "type": "header", "content": "Gallery" },
+    { "type": "text", "id": "label_button", "label": "Nutrition label button", "default": "View Nutrition Label" },
+    { "type": "image_picker", "id": "label_image", "label": "Nutrition label image" },
+    { "type": "text", "id": "gallery_note", "label": "Note under gallery", "default": "3rd-party lab tested · Made in USA" },
+    { "type": "header", "content": "Sticky add to cart" },
+    { "type": "checkbox", "id": "show_sticky", "label": "Show sticky bar", "default": true },
+    { "type": "text", "id": "sticky_button", "label": "Sticky button label", "default": "Start flushing" }
+  ],
+  "blocks": [
+    {
+      "type": "rating",
+      "name": "Rating",
+      "limit": 1,
+      "settings": [
+        { "type": "text", "id": "score", "label": "Score", "default": "4.8" },
+        { "type": "text", "id": "count", "label": "Review count text", "default": "1,294 reviews" },
+        { "type": "text", "id": "reviews_link", "label": "Reviews link (anchor)", "default": "#ww-reviews" },
+        { "type": "text", "id": "served", "label": "Extra text", "default": "1.2M+ served" }
+      ]
+    },
+    {
+      "type": "tags",
+      "name": "Tag line",
+      "limit": 1,
+      "settings": [
+        { "type": "text", "id": "text", "label": "Text", "default": "UTI Relief · Bladder · Urinary Tract · Kidney Support" }
+      ]
+    },
+    {
+      "type": "title",
+      "name": "Title",
+      "limit": 1,
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "info": "Leave blank to use the product title", "default": "Flush the UTI." },
+        { "type": "text", "id": "accent", "label": "Accent text", "default": "Reclaim your day." }
+      ]
+    },
+    {
+      "type": "description",
+      "name": "Description",
+      "limit": 1,
+      "settings": [
+        { "type": "richtext", "id": "text", "label": "Text", "info": "Leave blank to use the product description", "default": "<p>Fast-acting D-Mannose flushes the bacteria behind the burn and the every-5-minutes urgency, then keeps your bladder calm. 2 capsules a day, all natural.</p>" }
+      ]
+    },
+    {
+      "type": "bullets",
+      "name": "Bullet list",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "lines",
+          "label": "Bullets",
+          "info": "One per line. Use \"Bold part | rest\" to bold the first part.",
+          "default": "Stops the burn fast | often within 24 to 48 hours\nCalms the urge to go | fewer frantic bathroom trips\nFlushes and resets daily | stay ahead of the next flare\nAll natural, zero fillers | the cranberry pill that finally works"
+        }
+      ]
+    },
+    {
+      "type": "buy",
+      "name": "Purchase options",
+      "limit": 1,
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Choose your order" },
+        { "type": "header", "content": "Subscribe & save", "info": "Uses the product's first selling plan." },
+        { "type": "text", "id": "badge", "label": "Badge", "info": "[save] is replaced with the discount %", "default": "Most popular · Save [save]%" },
+        { "type": "text", "id": "sub_title", "label": "Title", "default": "Subscribe & Save" },
+        { "type": "text", "id": "sub_meta", "label": "Details", "default": "1 Bottle · 60 capsules · 30-day supply · Every 30 Days" },
+        { "type": "text", "id": "per_label", "label": "Price suffix", "default": "/mo" },
+        {
+          "type": "textarea",
+          "id": "perks",
+          "label": "Perks",
+          "info": "One per line. Use \"FREE | text\" for an orange prefix.",
+          "default": "FREE | Tea Tumbler, first order\nFREE | shipping on every order\nCancel or pause anytime\n30-day money-back guarantee"
+        },
+        { "type": "header", "content": "Free gift" },
+        { "type": "checkbox", "id": "show_gift", "label": "Show gift box", "default": true },
+        { "type": "text", "id": "gift_title", "label": "Title", "default": "What arrives with your first order" },
+        { "type": "text", "id": "gift_tag", "label": "Tag", "default": "FREE" },
+        { "type": "image_picker", "id": "gift_image_1", "label": "Gift image" },
+        { "type": "text", "id": "gift_label_1", "label": "Gift label", "default": "Tea Tumbler" },
+        { "type": "image_picker", "id": "gift_image_2", "label": "Product image", "info": "Defaults to the product's featured image" },
+        { "type": "text", "id": "gift_label_2", "label": "Product label", "default": "D-Mannose · 60 capsules" },
+        { "type": "header", "content": "One-time purchase" },
+        { "type": "text", "id": "one_title", "label": "Title", "default": "One-Time Purchase" },
+        { "type": "text", "id": "one_meta", "label": "Details", "default": "1 Bottle · 60 capsules · 30-day supply" },
+        { "type": "text", "id": "one_ship", "label": "Shipping note", "default": "+ shipping" },
+        { "type": "header", "content": "Button & trust" },
+        { "type": "text", "id": "button_label", "label": "Button label", "default": "Start flushing" },
+        { "type": "text", "id": "note", "label": "Note under button", "default": "Subscriber discount applied automatically at checkout" },
+        { "type": "image_picker", "id": "badges_image", "label": "Certification badges image" },
+        { "type": "checkbox", "id": "show_badges_fallback", "label": "Show built-in badges when no image", "default": true },
+        { "type": "header", "content": "Sticky bar" },
+        { "type": "text", "id": "sticky_save", "label": "Save label", "default": "Save [save]%" },
+        { "type": "text", "id": "sticky_meta_sub", "label": "Subscription text", "default": "Subscribe & Save · 60 capsules · 30-day supply + Free Tea Tumbler" },
+        { "type": "text", "id": "sticky_meta_one", "label": "One-time text", "default": "One-Time Purchase · 60 capsules · 30-day supply" }
+      ]
+    },
+    {
+      "type": "collapsible",
+      "name": "Collapsible tab",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Why Hey Girl?" },
+        { "type": "richtext", "id": "content", "label": "Content", "default": "<p>Add details about the product here.</p>" },
+        { "type": "page", "id": "page", "label": "Content from page" }
+      ]
+    },
+    {
+      "type": "video_reviews",
+      "name": "Video + reviews",
+      "limit": 1,
+      "settings": [
+        { "type": "video", "id": "video", "label": "Video" },
+        { "type": "url", "id": "video_url", "label": "Or video file URL (.mp4)" },
+        { "type": "image_picker", "id": "poster", "label": "Fallback image" },
+        { "type": "text", "id": "sound_label", "label": "Sound button", "default": "TAP FOR SOUND" },
+        { "type": "text", "id": "mute_label", "label": "Mute button", "default": "TAP TO MUTE" },
+        { "type": "text", "id": "caption", "label": "Caption", "default": "SEE IT FOR YOURSELF" },
+        {
+          "type": "textarea",
+          "id": "reviews",
+          "label": "Reviews",
+          "info": "One per line: Name | Review",
+          "default": "Renata V. | I'm 52 and was up half the night. Within the first week that constant urge to run to the bathroom eased right up. Small pill, easy to swallow.\nHollie B. | Two weeks of supporting my urinary tract with this and I feel great, only wish the bottle was bigger so I'm not reordering so soon lol.\nPriya N. | Skeptical at first, cranberry pills never did much for me. Two capsules a day and my bladder finally feels calm."
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

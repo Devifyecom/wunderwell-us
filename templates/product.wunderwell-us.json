@@ -1,0 +1,750 @@
+{
+  "sections": {
+    "main": {
+      "type": "ww-main-product",
+      "settings": {
+        "label_button": "View Nutrition Label",
+        "gallery_note": "3rd-party lab tested · Made in USA",
+        "show_sticky": true,
+        "sticky_button": "Start flushing"
+      },
+      "blocks": {
+        "rating": {
+          "type": "rating",
+          "settings": {
+            "score": "4.8",
+            "count": "1,294 reviews",
+            "reviews_link": "#ww-reviews",
+            "served": "1.2M+ served"
+          }
+        },
+        "tags": {
+          "type": "tags",
+          "settings": {
+            "text": "UTI Relief · Bladder · Urinary Tract · Kidney Support"
+          }
+        },
+        "title": {
+          "type": "title",
+          "settings": {
+            "title": "Flush the UTI.",
+            "accent": "Reclaim your day."
+          }
+        },
+        "description": {
+          "type": "description",
+          "settings": {
+            "text": "<p>Fast-acting D-Mannose flushes the bacteria behind the burn and the every-5-minutes urgency, then keeps your bladder calm. 2 capsules a day, all natural.</p>"
+          }
+        },
+        "bullets": {
+          "type": "bullets",
+          "settings": {
+            "lines": "Stops the burn fast | often within 24 to 48 hours\nCalms the urge to go | fewer frantic bathroom trips\nFlushes and resets daily | stay ahead of the next flare\nAll natural, zero fillers | the cranberry pill that finally works"
+          }
+        },
+        "buy": {
+          "type": "buy",
+          "settings": {}
+        },
+        "acc_1": {
+          "type": "collapsible",
+          "settings": {
+            "heading": "Why Hey Girl?",
+            "content": "<p>Most UTI supplements are underdosed cranberry. Hey Girl leads with a full 1,000mg of D-Mannose per serving, layered with Cranberry, Hibiscus and Dandelion, so you get the flush and the daily bladder support in one small capsule.</p>"
+          }
+        },
+        "acc_2": {
+          "type": "collapsible",
+          "settings": {
+            "heading": "Ingredients & Allergies",
+            "content": "<p><strong>Per serving (2 capsules):</strong> D-Mannose 1,000mg, Cranberry Extract 250mg, Hibiscus 75mg, Dandelion 75mg.</p><p>Vegan, non-GMO and gluten free. No artificial additives, fillers, binders or added sugar.</p>"
+          }
+        },
+        "acc_3": {
+          "type": "collapsible",
+          "settings": {
+            "heading": "How to Use",
+            "content": "<p>Take 2 capsules daily with a full glass of water. For extra support, take 2 before and 2 after intimacy. Keep drinking water through the day to help your body flush.</p>"
+          }
+        },
+        "acc_4": {
+          "type": "collapsible",
+          "settings": {
+            "heading": "Science & Certifications",
+            "content": "<p>D-Mannose is a naturally occurring sugar that helps keep bacteria from sticking to the bladder wall so they are flushed out naturally. Made in a GMP-certified facility in the USA and third-party lab tested for quality and consistency.</p>"
+          }
+        },
+        "acc_5": {
+          "type": "collapsible",
+          "settings": {
+            "heading": "Benefits",
+            "content": "<ul><li>Flushes the bacteria behind UTIs</li><li>Soothes an irritated bladder</li><li>Eases the constant urge to go</li><li>Supports healthy kidney function</li></ul>"
+          }
+        },
+        "acc_6": {
+          "type": "collapsible",
+          "settings": {
+            "heading": "Quality & Sourcing",
+            "content": "<p>Formulated with globally sourced ingredients and manufactured in the USA under strict GMP standards. Every batch is third-party tested.</p>"
+          }
+        },
+        "video_reviews": {
+          "type": "video_reviews",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "rating",
+        "tags",
+        "title",
+        "description",
+        "bullets",
+        "buy",
+        "acc_1",
+        "acc_2",
+        "acc_3",
+        "acc_4",
+        "acc_5",
+        "acc_6",
+        "video_reviews"
+      ]
+    },
+    "press": {
+      "type": "ww-press",
+      "settings": {
+        "title": "Trusted sources in women's health"
+      },
+      "blocks": {
+        "logo_1": {
+          "type": "logo",
+          "settings": {
+            "name": "Forbes"
+          }
+        },
+        "logo_2": {
+          "type": "logo",
+          "settings": {
+            "name": "COSMOPOLITAN"
+          }
+        },
+        "logo_3": {
+          "type": "logo",
+          "settings": {
+            "name": "The New Yorker"
+          }
+        },
+        "logo_4": {
+          "type": "logo",
+          "settings": {
+            "name": "Women'sHealth"
+          }
+        }
+      },
+      "block_order": [
+        "logo_1",
+        "logo_2",
+        "logo_3",
+        "logo_4"
+      ]
+    },
+    "problem": {
+      "type": "ww-problem",
+      "settings": {},
+      "blocks": {
+        "stat_1": {
+          "type": "stat",
+          "settings": {
+            "value": "1 in 2",
+            "label": "women will have a UTI in their lifetime"
+          }
+        },
+        "stat_2": {
+          "type": "stat",
+          "settings": {
+            "value": "1 in 4",
+            "label": "deal with repeat UTIs within 6 months"
+          }
+        }
+      },
+      "block_order": [
+        "stat_1",
+        "stat_2"
+      ]
+    },
+    "callout": {
+      "type": "ww-callout",
+      "settings": {}
+    },
+    "circle": {
+      "type": "ww-benefit-circle",
+      "settings": {},
+      "blocks": {
+        "item_1": {
+          "type": "item",
+          "settings": {
+            "text": "Flushes the bacteria behind UTIs"
+          }
+        },
+        "item_2": {
+          "type": "item",
+          "settings": {
+            "text": "Soothes an irritated bladder"
+          }
+        },
+        "item_3": {
+          "type": "item",
+          "settings": {
+            "text": "Eases that constant urge to go"
+          }
+        },
+        "item_4": {
+          "type": "item",
+          "settings": {
+            "text": "Supports your kidneys"
+          }
+        },
+        "item_5": {
+          "type": "item",
+          "settings": {
+            "text": "Calms the burning"
+          }
+        }
+      },
+      "block_order": [
+        "item_1",
+        "item_2",
+        "item_3",
+        "item_4",
+        "item_5"
+      ]
+    },
+    "ingredients": {
+      "type": "ww-ingredients",
+      "settings": {},
+      "blocks": {
+        "ing_1": {
+          "type": "ingredient",
+          "settings": {
+            "name": "D-Mannose",
+            "dose": "1,000MG",
+            "text": "Keeps UTI-causing bacteria from sticking to your bladder wall, so your body flushes it out."
+          }
+        },
+        "ing_2": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Cranberry Extract",
+            "dose": "250MG",
+            "text": "Concentrated cranberry without the juice sugar. Its PACs support a healthy urinary tract."
+          }
+        },
+        "ing_3": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Hibiscus",
+            "dose": "75MG",
+            "text": "Traditionally used for urinary and kidney support, it helps calm an irritated bladder."
+          }
+        },
+        "ing_4": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Dandelion",
+            "dose": "75MG",
+            "text": "A gentle natural diuretic that supports your kidneys and the daily flushing that keeps bacteria out."
+          }
+        }
+      },
+      "block_order": [
+        "ing_1",
+        "ing_2",
+        "ing_3",
+        "ing_4"
+      ]
+    },
+    "how_it_works_image": {
+      "type": "ww-image-banner",
+      "settings": {
+        "max_width": 1000
+      }
+    },
+    "timeline": {
+      "type": "ww-timeline",
+      "settings": {},
+      "blocks": {
+        "card_1": {
+          "type": "card",
+          "settings": {
+            "label": "DAY 1 – 2",
+            "title": "Fast relief",
+            "text": "The burning and the constant urge start to ease. Most women feel noticeably calmer within 24 to 48 hours."
+          }
+        },
+        "card_2": {
+          "type": "card",
+          "settings": {
+            "label": "WEEK 1",
+            "title": "Flushed clean",
+            "text": "D-Mannose has flushed the bacteria out. Fewer bathroom trips, and you start to feel like yourself again."
+          }
+        },
+        "card_3": {
+          "type": "card",
+          "settings": {
+            "label": "WEEKS 2 – 4+",
+            "title": "Daily defense",
+            "text": "Taken daily, it keeps bacteria from taking hold, so you get fewer repeat UTIs and stay ahead of the next flare."
+          }
+        }
+      },
+      "block_order": [
+        "card_1",
+        "card_2",
+        "card_3"
+      ]
+    },
+    "survey": {
+      "type": "ww-survey",
+      "settings": {},
+      "blocks": {
+        "stat_1": {
+          "type": "stat",
+          "settings": {
+            "value": "91%",
+            "label": "Felt the burning ease within 48 hours",
+            "source": "Hey Girl 2026 customer survey"
+          }
+        },
+        "stat_2": {
+          "type": "stat",
+          "settings": {
+            "value": "88%",
+            "label": "Had fewer repeat UTIs taking it daily",
+            "source": "Hey Girl 2026 customer survey"
+          }
+        },
+        "stat_3": {
+          "type": "stat",
+          "settings": {
+            "value": "93%",
+            "label": "Said it beat the cranberry pills they tried before",
+            "source": "Hey Girl 2026 customer survey"
+          }
+        }
+      },
+      "block_order": [
+        "stat_1",
+        "stat_2",
+        "stat_3"
+      ]
+    },
+    "steps": {
+      "type": "ww-steps",
+      "settings": {},
+      "blocks": {
+        "step_1": {
+          "type": "step",
+          "settings": {
+            "title": "Take 2",
+            "text": "Swallow 2 capsules with a full glass of water. Easy, every day."
+          }
+        },
+        "step_2": {
+          "type": "step",
+          "settings": {
+            "title": "Flush",
+            "text": "D-Mannose stops the bacteria from sticking, so your body flushes it out when you pee."
+          }
+        },
+        "step_3": {
+          "type": "step",
+          "settings": {
+            "title": "Stay ahead",
+            "text": "Keep taking 2 a day to soothe the bladder and stay ahead of the next flare. No burn, no dread."
+          }
+        }
+      },
+      "block_order": [
+        "step_1",
+        "step_2",
+        "step_3"
+      ]
+    },
+    "trust": {
+      "type": "ww-trust",
+      "settings": {
+        "heading": "Why Trust\nHey Girl D-Mannose"
+      },
+      "blocks": {
+        "tile_1": {
+          "type": "tile",
+          "settings": {
+            "icon": "document",
+            "text": "Clinically supported ingredients"
+          }
+        },
+        "tile_2": {
+          "type": "tile",
+          "settings": {
+            "icon": "flask",
+            "text": "Third party tested"
+          }
+        },
+        "tile_3": {
+          "type": "tile",
+          "settings": {
+            "icon": "leaf",
+            "text": "Clean formula"
+          }
+        },
+        "tile_4": {
+          "type": "tile",
+          "settings": {
+            "icon": "usa",
+            "text": "Made in the USA"
+          }
+        },
+        "check_1": {
+          "type": "check",
+          "settings": {
+            "text": "Vegan friendly"
+          }
+        },
+        "check_2": {
+          "type": "check",
+          "settings": {
+            "text": "No artificial additives"
+          }
+        },
+        "check_3": {
+          "type": "check",
+          "settings": {
+            "text": "Non GMO"
+          }
+        },
+        "check_4": {
+          "type": "check",
+          "settings": {
+            "text": "No fillers or binders"
+          }
+        },
+        "check_5": {
+          "type": "check",
+          "settings": {
+            "text": "Gluten free"
+          }
+        },
+        "check_6": {
+          "type": "check",
+          "settings": {
+            "text": "No added sugar"
+          }
+        }
+      },
+      "block_order": [
+        "tile_1",
+        "tile_2",
+        "tile_3",
+        "tile_4",
+        "check_1",
+        "check_2",
+        "check_3",
+        "check_4",
+        "check_5",
+        "check_6"
+      ]
+    },
+    "reviews": {
+      "type": "ww-reviews",
+      "settings": {
+        "eyebrow": "1,294 verified reviews",
+        "tabs": "Recurrent UTIs, Burning, Bladder Urgency, After Intimacy"
+      },
+      "blocks": {
+        "review_1": {
+          "type": "review",
+          "settings": {
+            "tag": "Burn gone in 2 days",
+            "title": "The burning stopped fast",
+            "text": "I felt that first sting and started taking it right away. By the second day the burning was gone. I keep a bottle at home and one in my bag now, just in case.",
+            "name": "Ashley T.",
+            "age": "29",
+            "location": "Austin, TX",
+            "categories": "Burning"
+          }
+        },
+        "review_2": {
+          "type": "review",
+          "settings": {
+            "tag": "No more aftermath",
+            "title": "I can be intimate without dread",
+            "text": "Every time with my partner used to mean a UTI two days later. I take 2 before and 2 after and that pattern is just gone. It gave me my relationship back.",
+            "name": "Lauren B.",
+            "age": "31",
+            "location": "Seattle, WA",
+            "categories": "After Intimacy"
+          }
+        },
+        "review_3": {
+          "type": "review",
+          "settings": {
+            "tag": "Beats cranberry pills",
+            "title": "Better than any cranberry pill",
+            "text": "I tried every cranberry pill and gummy on the shelf and none did a thing. This one actually has enough D-Mannose to matter. Total difference, I am a believer.",
+            "name": "Amanda R.",
+            "age": "38",
+            "location": "Chicago, IL",
+            "categories": "Recurrent UTIs"
+          }
+        },
+        "review_4": {
+          "type": "review",
+          "settings": {
+            "tag": "Calm and clear",
+            "title": "No more bracing when I pee",
+            "text": "I forgot what it felt like to use the bathroom without bracing for pain. The capsules are small and easy to swallow and they just work. So relieved.",
+            "name": "Olivia M.",
+            "age": "27",
+            "location": "San Diego, CA",
+            "categories": "Burning"
+          }
+        },
+        "review_5": {
+          "type": "review",
+          "settings": {
+            "tag": "Bladder calmed down",
+            "title": "My cranky bladder is calm",
+            "text": "Hibiscus and dandelion must be doing something, because the irritation and urgency I felt all day is basically gone. I feel like myself again.",
+            "name": "Kayla T.",
+            "age": "45",
+            "location": "Miami, FL",
+            "categories": "Bladder Urgency"
+          }
+        },
+        "review_6": {
+          "type": "review",
+          "settings": {
+            "tag": "Peace of mind",
+            "title": "Honeymoon saver",
+            "text": "Booked a honeymoon and panicked because intimacy always meant a UTI for me. Took these the whole trip and had zero issues. Cannot recommend enough.",
+            "name": "Marissa D.",
+            "age": "33",
+            "location": "Phoenix, AZ",
+            "categories": "After Intimacy"
+          }
+        },
+        "review_7": {
+          "type": "review",
+          "settings": {
+            "tag": "Stays ahead of it",
+            "title": "Keeps the flares away",
+            "text": "I am prone to repeat infections and my doctor said staying ahead of it matters. Two a day keeps me clear. I have not needed a round of antibiotics since.",
+            "name": "Brittany H.",
+            "age": "36",
+            "location": "Dallas, TX",
+            "categories": "Recurrent UTIs"
+          }
+        },
+        "review_8": {
+          "type": "review",
+          "settings": {
+            "tag": "Fast relief",
+            "title": "Worked within 48 hours",
+            "text": "I was skeptical that a supplement could help that fast, but the discomfort eased within two days. Natural, no side effects, and it actually delivered.",
+            "name": "Courtney W.",
+            "age": "30",
+            "location": "Charlotte, NC",
+            "categories": "Burning"
+          }
+        },
+        "review_9": {
+          "type": "review",
+          "settings": {
+            "tag": "No more urgency",
+            "title": "Got my days back",
+            "text": "I used to map every outing around bathrooms. The urgency has dropped so much that I do not even think about it anymore. Such a quiet little life change.",
+            "name": "Samantha R.",
+            "age": "42",
+            "location": "New York, NY",
+            "categories": "Bladder Urgency"
+          }
+        },
+        "review_10": {
+          "type": "review",
+          "settings": {
+            "tag": "Clean and natural",
+            "title": "Gentle and it works",
+            "text": "I wanted something natural I could take every day without worrying. No fillers, easy on my stomach, and it keeps the infections away. Subscribed for life.",
+            "name": "Sarah J.",
+            "age": "28",
+            "location": "Los Angeles, CA",
+            "categories": "Recurrent UTIs"
+          }
+        },
+        "review_11": {
+          "type": "review",
+          "settings": {
+            "tag": "Off antibiotics",
+            "title": "Out of the antibiotic cycle",
+            "text": "I was on antibiotics every couple months and hated it. Since starting these I have stayed clear, no prescriptions, no flares. I finally feel in control of my own body again.",
+            "name": "Priya N.",
+            "age": "35",
+            "location": "Houston, TX",
+            "categories": "Recurrent UTIs"
+          }
+        }
+      },
+      "block_order": [
+        "review_1",
+        "review_2",
+        "review_3",
+        "review_4",
+        "review_5",
+        "review_6",
+        "review_7",
+        "review_8",
+        "review_9",
+        "review_10",
+        "review_11"
+      ]
+    },
+    "benefit_tiles": {
+      "type": "ww-benefit-tiles",
+      "settings": {},
+      "blocks": {
+        "group_1": {
+          "type": "group",
+          "settings": {
+            "chip": "Bestseller",
+            "icon_1": "shield",
+            "text_1": "Prevents Recurrent UTIs",
+            "icon_2": "bladder",
+            "text_2": "Reduces Bladder Irritation",
+            "icon_3": "blocked",
+            "text_3": "Blocks Bacteria Naturally"
+          }
+        },
+        "group_2": {
+          "type": "group",
+          "settings": {
+            "chip": "Bestseller",
+            "icon_1": "drops",
+            "text_1": "Reduces Urinary Frequency",
+            "icon_2": "bacteria",
+            "text_2": "Prevents Bacterial Overgrowth",
+            "icon_3": "bladder",
+            "text_3": "Supports bladder comfort"
+          }
+        }
+      },
+      "block_order": [
+        "group_1",
+        "group_2"
+      ]
+    },
+    "comparison": {
+      "type": "ww-comparison",
+      "settings": {}
+    },
+    "guarantee": {
+      "type": "ww-guarantee",
+      "settings": {}
+    },
+    "faq": {
+      "type": "ww-faq",
+      "settings": {},
+      "blocks": {
+        "q_1": {
+          "type": "question",
+          "settings": {
+            "question": "How fast does it work?",
+            "answer": "<p>Most women notice the burning and urgency start to ease within 24 to 48 hours. Keep taking 2 capsules daily with plenty of water for ongoing support.</p>"
+          }
+        },
+        "q_2": {
+          "type": "question",
+          "settings": {
+            "question": "Can I take it every day?",
+            "answer": "<p>Yes. Hey Girl D-Mannose is designed for daily use. Take 2 capsules a day to stay ahead of the next flare.</p>"
+          }
+        },
+        "q_3": {
+          "type": "question",
+          "settings": {
+            "question": "Is this a replacement for antibiotics?",
+            "answer": "<p>No. Hey Girl is a dietary supplement that supports urinary tract health. If you have an active infection, fever or severe symptoms, please see your doctor.</p>"
+          }
+        },
+        "q_4": {
+          "type": "question",
+          "settings": {
+            "question": "Does it work better than cranberry?",
+            "answer": "<p>Most cranberry pills are underdosed and rely on one ingredient. Hey Girl leads with 1,000mg of D-Mannose and adds Cranberry, Hibiscus and Dandelion for broader support.</p>"
+          }
+        },
+        "q_5": {
+          "type": "question",
+          "settings": {
+            "question": "Will it interact with my medications?",
+            "answer": "<p>D-Mannose is generally well tolerated, but if you take prescription medication or have a medical condition, check with your healthcare provider before starting any supplement.</p>"
+          }
+        },
+        "q_6": {
+          "type": "question",
+          "settings": {
+            "question": "Is it safe during pregnancy?",
+            "answer": "<p>Please talk to your doctor before taking any supplement while pregnant or breastfeeding.</p>"
+          }
+        },
+        "q_7": {
+          "type": "question",
+          "settings": {
+            "question": "What does it taste like?",
+            "answer": "<p>Nothing at all. It comes in small, easy-to-swallow veggie capsules with no taste or aftertaste.</p>"
+          }
+        },
+        "q_8": {
+          "type": "question",
+          "settings": {
+            "question": "How many bottles should I start with?",
+            "answer": "<p>One bottle is a 30-day supply. Most customers choose Subscribe &amp; Save so they never run out and stay ahead of flares.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q_1",
+        "q_2",
+        "q_3",
+        "q_4",
+        "q_5",
+        "q_6",
+        "q_7",
+        "q_8"
+      ]
+    },
+    "final_cta": {
+      "type": "ww-final-cta",
+      "settings": {}
+    }
+  },
+  "order": [
+    "main",
+    "press",
+    "problem",
+    "callout",
+    "circle",
+    "ingredients",
+    "how_it_works_image",
+    "timeline",
+    "survey",
+    "steps",
+    "trust",
+    "reviews",
+    "benefit_tiles",
+    "comparison",
+    "guarantee",
+    "faq",
+    "final_cta"
+  ]
+}
