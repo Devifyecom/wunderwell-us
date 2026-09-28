@@ -1,0 +1,62 @@
+{% render 'ww-assets' %}
+
+<div class="ww-section ww-wave ww-steps">
+  {% render 'ww-wave', position: 'top' %}
+  <div class="ww-container">
+    {%- if section.settings.eyebrow != blank -%}<p class="ww-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+    <h2 class="ww-heading">{{ section.settings.heading }}</h2>
+    <div class="ww-steps__grid">
+      {%- for block in section.blocks -%}
+        <div class="ww-step" {{ block.shopify_attributes }}>
+          <div class="ww-step__img">
+            {%- if block.settings.image != blank -%}
+              {{
+                block.settings.image
+                | image_url: width: 700
+                | image_tag: loading: 'lazy', sizes: '(min-width: 990px) 300px, 90vw', widths: '300, 500, 700', alt: block.settings.title
+              }}
+            {%- else -%}
+              {{ 'lifestyle-2' | placeholder_svg_tag }}
+            {%- endif -%}
+          </div>
+          <span class="ww-step__num">{{ forloop.index }}</span>
+          <h3>{{ block.settings.title }}</h3>
+          <p>{{ block.settings.text }}</p>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+  {% render 'ww-wave', position: 'bottom' %}
+</div>
+
+{% schema %}
+{
+  "name": "WW Steps",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "How it works" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Easy as 1. 2. 3." }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Take 2" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Swallow 2 capsules with a full glass of water. Easy, every day." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "WW Steps",
+      "blocks": [
+        { "type": "step" },
+        { "type": "step", "settings": { "title": "Flush", "text": "D-Mannose stops the bacteria from sticking, so your body flushes it out when you pee." } },
+        { "type": "step", "settings": { "title": "Stay ahead", "text": "Keep taking 2 a day to soothe the bladder and stay ahead of the next flare. No burn, no dread." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

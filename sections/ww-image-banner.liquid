@@ -1,0 +1,50 @@
+{% render 'ww-assets' %}
+
+<div class="ww-section ww-imgbanner">
+  <div class="ww-container">
+    <div class="ww-imgbanner__frame" style="max-width: {{ section.settings.max_width }}px;">
+      {%- capture image_html -%}
+        {%- if section.settings.image != blank -%}
+          {%- if section.settings.image_mobile != blank -%}
+            <picture>
+              <source media="(max-width: 749px)" srcset="{{ section.settings.image_mobile | image_url: width: 900 }}">
+              {{
+                section.settings.image
+                | image_url: width: 2000
+                | image_tag: loading: 'lazy', sizes: '(min-width: 1100px) 1000px, 100vw', widths: '750, 1000, 1500, 2000', alt: section.settings.image.alt
+              }}
+            </picture>
+          {%- else -%}
+            {{
+              section.settings.image
+              | image_url: width: 2000
+              | image_tag: loading: 'lazy', sizes: '(min-width: 1100px) 1000px, 100vw', widths: '750, 1000, 1500, 2000', alt: section.settings.image.alt
+            }}
+          {%- endif -%}
+        {%- else -%}
+          {{ 'lifestyle-1' | placeholder_svg_tag }}
+        {%- endif -%}
+      {%- endcapture -%}
+
+      {%- if section.settings.link != blank -%}
+        <a href="{{ section.settings.link }}">{{ image_html }}</a>
+      {%- else -%}
+        {{ image_html }}
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "WW Image banner",
+  "tag": "section",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Image", "info": "E.g. the “How does D-Mannose keep you UTI-free?” infographic" },
+    { "type": "image_picker", "id": "image_mobile", "label": "Mobile image" },
+    { "type": "url", "id": "link", "label": "Link" },
+    { "type": "range", "id": "max_width", "label": "Max width", "min": 600, "max": 1400, "step": 20, "unit": "px", "default": 1000 }
+  ],
+  "presets": [{ "name": "WW Image banner" }]
+}
+{% endschema %}

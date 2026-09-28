@@ -1,0 +1,51 @@
+{% render 'ww-assets' %}
+
+<div class="ww-section ww-final">
+  <div class="ww-container ww-container--narrow">
+    <h2>{{ section.settings.heading }}</h2>
+    {%- if section.settings.text != blank -%}<p class="ww-final__sub">{{ section.settings.text }}</p>{%- endif -%}
+
+    {%- if section.settings.button_label != blank -%}
+      <a class="ww-btn" href="{{ section.settings.button_link | default: '#ww-buy' }}">
+        {{ section.settings.button_label }}
+        {% render 'ww-icon', icon: 'arrow' %}
+      </a>
+    {%- endif -%}
+
+    <div>
+      {%- if section.settings.logo != blank -%}
+        <div class="ww-final__logo">
+          {{ section.settings.logo | image_url: width: 400 | image_tag: loading: 'lazy', alt: shop.name }}
+        </div>
+      {%- elsif section.settings.logo_text != blank -%}
+        <span class="ww-final__logo-text">{{ section.settings.logo_text | newline_to_br }}</span>
+      {%- endif -%}
+    </div>
+
+    {%- if section.settings.legal != blank -%}<p class="ww-final__legal">{{ section.settings.legal }}</p>{%- endif -%}
+    {%- if section.settings.copyright != blank -%}<p class="ww-final__copy">{{ section.settings.copyright }}</p>{%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "WW Final CTA",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Flush the UTI. Starting today." },
+    { "type": "text", "id": "text", "label": "Text", "default": "Join 1.2M+ women who got ahead of the burn for good." },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Start flushing" },
+    { "type": "text", "id": "button_link", "label": "Button link", "default": "#ww-buy" },
+    { "type": "image_picker", "id": "logo", "label": "Logo" },
+    { "type": "textarea", "id": "logo_text", "label": "Logo text", "info": "Used when no logo image is set", "default": "Hey\nGirl" },
+    {
+      "type": "textarea",
+      "id": "legal",
+      "label": "Disclaimer",
+      "default": "Statements regarding dietary supplements have not been evaluated by the FDA and are not intended to diagnose, treat, cure, or prevent any disease or health condition."
+    },
+    { "type": "text", "id": "copyright", "label": "Copyright line", "default": "© Hey Girl · Urinary tract & bladder support · Made in USA" }
+  ],
+  "presets": [{ "name": "WW Final CTA" }]
+}
+{% endschema %}

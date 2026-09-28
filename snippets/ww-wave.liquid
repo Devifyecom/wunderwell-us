@@ -1,0 +1,8 @@
+{%- comment -%}
+  Curved edge for orange wave sections. position: 'top' | 'bottom'
+{%- endcomment -%}
+{%- if position == 'top' -%}
+  <svg class="ww-wave__edge ww-wave__edge--top" viewBox="0 0 1440 40" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 40V17C300 2 560 -2 820 8S1260 26 1440 14V40Z"/></svg>
+{%- else -%}
+  <svg class="ww-wave__edge ww-wave__edge--bottom" viewBox="0 0 1440 40" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 0V18C300 4 560 -2 820 12S1260 36 1440 16V0Z"/></svg>
+{%- endif -%}

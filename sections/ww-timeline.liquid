@@ -1,0 +1,51 @@
+{% render 'ww-assets' %}
+
+<div class="ww-section ww-wave ww-timeline">
+  {% render 'ww-wave', position: 'top' %}
+  <div class="ww-container">
+    {%- if section.settings.eyebrow != blank -%}<p class="ww-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+    <h2 class="ww-heading">{{ section.settings.heading }}</h2>
+    <div class="ww-timeline__grid">
+      {%- for block in section.blocks -%}
+        <div class="ww-tcard" {{ block.shopify_attributes }}>
+          <span class="ww-tcard__pill">{{ block.settings.label }}</span>
+          <h3>{{ block.settings.title }}</h3>
+          <p>{{ block.settings.text }}</p>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+  {% render 'ww-wave', position: 'bottom' %}
+</div>
+
+{% schema %}
+{
+  "name": "WW Timeline",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "What to expect" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Feel it work, day by day." }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Card",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label", "default": "DAY 1 – 2" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Fast relief" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "The burning and the constant urge start to ease. Most women feel noticeably calmer within 24 to 48 hours." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "WW Timeline",
+      "blocks": [
+        { "type": "card" },
+        { "type": "card", "settings": { "label": "WEEK 1", "title": "Flushed clean", "text": "D-Mannose has flushed the bacteria out. Fewer bathroom trips, and you start to feel like yourself again." } },
+        { "type": "card", "settings": { "label": "WEEKS 2 – 4+", "title": "Daily defense", "text": "Taken daily, it keeps bacteria from taking hold, so you get fewer repeat UTIs and stay ahead of the next flare." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

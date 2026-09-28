@@ -1,0 +1,108 @@
+{% render 'ww-assets' %}
+
+<div class="ww-section ww-reviews" id="ww-reviews" data-ww-reviews>
+  <div class="ww-container">
+    <div class="ww-head-center">
+      {%- if section.settings.eyebrow != blank -%}<p class="ww-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      <h2 class="ww-heading">{{ section.settings.heading }}</h2>
+      {%- if section.settings.text != blank -%}<p class="ww-sub">{{ section.settings.text }}</p>{%- endif -%}
+    </div>
+
+    {%- assign tab_names = section.settings.tabs | split: ',' -%}
+    {%- if tab_names.size > 0 -%}
+      <div class="ww-reviews__tabs" role="tablist">
+        <button type="button" class="ww-tab is-active" data-filter="all" role="tab" aria-selected="true">
+          {{- section.settings.all_label -}}
+        </button>
+        {%- for tab in tab_names -%}
+          {%- assign tab_name = tab | strip -%}
+          <button type="button" class="ww-tab" data-filter="{{ tab_name | handleize }}" role="tab" aria-selected="false">
+            {{- tab_name -}}
+          </button>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    <div class="ww-reviews__grid">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign category_handles = ''
+          assign categories = block.settings.categories | split: ','
+          for category in categories
+            assign handle = category | strip | handleize
+            assign category_handles = category_handles | append: handle | append: ','
+          endfor
+          assign name_words = block.settings.name | split: ' '
+        -%}
+        {%- capture initials -%}
+          {%- for word in name_words limit: 2 -%}{{ word | slice: 0 | upcase }}{%- endfor -%}
+        {%- endcapture -%}
+        <article class="ww-rcard" data-category="{{ category_handles }}" {{ block.shopify_attributes }}>
+          <div class="ww-rcard__img">
+            {%- if block.settings.image != blank -%}
+              {{
+                block.settings.image
+                | image_url: width: 900
+                | image_tag: loading: 'lazy', sizes: '(min-width: 990px) 33vw, (min-width: 750px) 50vw, 100vw', widths: '450, 700, 900', alt: block.settings.title
+              }}
+            {%- else -%}
+              {{ 'lifestyle-1' | placeholder_svg_tag }}
+            {%- endif -%}
+            {%- if block.settings.tag != blank -%}<span class="ww-rcard__tag">{{ block.settings.tag }}</span>{%- endif -%}
+          </div>
+          <div class="ww-rcard__body">
+            <span class="ww-stars">{%- for i in (1..5) -%}{% render 'ww-icon', icon: 'star' %}{%- endfor -%}</span>
+            <h3>{{ block.settings.title }}</h3>
+            <p class="ww-rcard__text">{{ block.settings.text }}</p>
+            <div class="ww-rcard__who">
+              <span class="ww-avatar">{{ initials | strip }}</span>
+              <div>
+                <p class="ww-rcard__name">{{ block.settings.name }}{% if block.settings.age != blank %}, {{ block.settings.age }}{% endif %}</p>
+                <p class="ww-rcard__loc ww-verified">
+                  {% render 'ww-icon', icon: 'check' %} Verified{% if block.settings.location != blank %} · {{ block.settings.location }}{% endif %}
+                </p>
+              </div>
+            </div>
+          </div>
+        </article>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "WW Reviews grid",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "1,294 verified reviews" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "What our customers say." },
+    { "type": "text", "id": "text", "label": "Text", "default": "Click a tab to filter by what matters most to you." },
+    { "type": "text", "id": "all_label", "label": "“All” tab label", "default": "All Reviews" },
+    {
+      "type": "text",
+      "id": "tabs",
+      "label": "Filter tabs",
+      "info": "Comma separated. Match these names in each review's categories.",
+      "default": "Recurrent UTIs, Burning, Bladder Urgency, After Intimacy"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Photo" },
+        { "type": "text", "id": "tag", "label": "Photo tag", "default": "Burn gone in 2 days" },
+        { "type": "text", "id": "title", "label": "Title", "default": "The burning stopped fast" },
+        { "type": "textarea", "id": "text", "label": "Review", "default": "I felt that first sting and started taking it right away. By the second day the burning was gone. I keep a bottle at home and one in my bag now, just in case." },
+        { "type": "text", "id": "name", "label": "Name", "default": "Ashley T." },
+        { "type": "text", "id": "age", "label": "Age", "default": "29" },
+        { "type": "text", "id": "location", "label": "Location", "default": "Austin, TX" },
+        { "type": "text", "id": "categories", "label": "Categories", "info": "Comma separated tab names", "default": "Burning" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "WW Reviews grid", "blocks": [{ "type": "review" }] }]
+}
+{% endschema %}
